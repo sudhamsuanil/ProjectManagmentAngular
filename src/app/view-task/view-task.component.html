@@ -1,0 +1,59 @@
+<br>
+      <div  class="container">
+       <div class="row" >
+              <label for="projectName" class="control-label">Project</label>&nbsp;&nbsp; 
+              <input type="text" id="projectName"  [(ngModel)]=projectName disabled>&nbsp;&nbsp; 
+              <button type="button" class="btn btn-primary pull-right" (click)="open(searchProject)">Search</button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="button" class="btn btn-primary pull-right" (click)="SortByStartDate()">Sort StartDate</button>&nbsp;&nbsp; 
+              <button type="button" class="btn btn-primary pull-right" (click)="SortByEndDate()">Sort EndDate</button>&nbsp;&nbsp; 
+              <button type="button" class="btn btn-primary pull-right" (click)="SortByPriority()">Sort Priority</button>
+       </div>
+       <br>
+      <table class="table table-bordered">
+      <thead>
+      <th>Task</th>
+      <th>Parent</th>
+      <th>StartDate</th>
+      <th>EndDate</th>
+      <th>Priority</th>
+ 
+      <th></th>
+      </thead>
+      <tbody>
+         <tr *ngFor="let proj of taskList|orderBy: sortBy : reverse : caseInsensitive : comparator">
+      <td>{{proj.TaskName}}</td>
+      <td>{{proj.parent_id}}</td>
+      <td>{{proj.Start_Date}}</td>
+      <td>{{proj.End_Date}}</td>
+      <td>{{proj.priority}}</td>
+      
+      <td><button type="button" class="btn btn-primary pull-right" (click)="EndStatus(proj.task_id)">End Status</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary pull-right" (click)="Edit(proj.task_id)">Edit</button></td>
+      </tr>
+      </tbody>
+      </table>
+      </div>
+
+      <ng-template #searchProject let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Select a project Name</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="mdprojectName">ProjectName</label>
+                  <div class="input-group">
+                        <select name="mdprojectName" [(ngModel)]="mdprojectName">
+                                <option *ngFor="let proj of projList">{{proj.ProjectName}}</option>
+                              </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('selectItem')">Select</button>
+            </div>
+          </ng-template>

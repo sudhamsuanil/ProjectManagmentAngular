@@ -1,0 +1,20 @@
+input[type="checkbox"]{
+    width: 20px; /*Desired width*/
+    height: 20px; /*Desired height*/
+  }
+input[type="date"]{
+    width: 15%; /*Desired width*/
+    height: 10%; /*Desired height*/
+  }
+input
+{
+    width: 50%;
+}
+.alert-danger
+{
+    width: 50%;
+}
+.managerNameBox
+{
+    width: 40%;
+}

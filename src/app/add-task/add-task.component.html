@@ -1,0 +1,152 @@
+<br>
+
+
+<div class="container">
+        <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onAdd()">
+        
+          <div class="form-group row" >
+                <div class="col-sm-12">
+                  <label for="projectName" class="control-label">Project</label>
+                <div class="row">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="projectName" class="form-control managerNameBox" formControlName="projectName" [(ngModel)]=projectName disabled>&nbsp;&nbsp;
+                  <button type="button" class="btn btn-primary" (click)="open(searchProject)">Search</button>
+                </div>  
+                  <div *ngIf="(form.get('projectName').touched && form.get('projectName').errors?.required)||showValidation&& form.get('projectName').errors?.required" class="alert alert-danger">
+                   <div *ngIf="form.get('projectName').errors?.required">projectName is required!</div></div>
+                </div>    
+            </div>
+            <div class="form-group row">
+                    <div class="col-sm-12">
+                      <label for="taskName" class="control-label">Task</label>
+                      <input type="text" id="taskName" class="form-control" formControlName="taskName" [(ngModel)]=taskName>
+                      <div *ngIf="form.get('taskName').touched && form.get('taskName').errors?.required||showValidation&& form.get('taskName').errors?.required" class="alert alert-danger">
+                      <div *ngIf="form.get('taskName').errors?.required">Task name is required!</div></div>
+                    </div>
+            </div>
+            <div class="form-group row">        
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="isParentTask" class="form-control" formControlName="isParentTask"  [(ngModel)]=isParentTask (change)="checkValue(isParentTask?1:0)">
+              <label for="isParentTask" class="control-label">Parent Task</label>&nbsp;&nbsp;
+            
+            </div>
+        
+          <div class="form-group">
+                <label for="projectPriority">Priority</label>
+                <input type="range" class="form-control-range" formControlName="projectPriority" id="projectPriority" min="0" max="30" value="0" (change)="OnChange($event.target.value)">
+                <label for="projectPriorityValue">{{projectPriority}}</label>
+          </div>
+
+          <div class="form-group row" >
+                <div class="col-sm-12">
+                  <label for="parentTask" class="control-label">Parent Task</label>
+                <div class="row">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="parentTask" class="form-control managerNameBox" formControlName="parentTask" [(ngModel)]=parentTask disabled>&nbsp;&nbsp;
+                  <button type="button" class="btn btn-primary" (click)="open(searchTask)">Search</button>
+                </div>  
+                  <div *ngIf="(form.get('parentTask').touched && form.get('parentTask').errors?.required)||showValidation&& form.get('parentTask').errors?.required" class="alert alert-danger">
+                   <div *ngIf="form.get('parentTask').errors?.required">parentTask is required, in case the drop down is empty add a parent task first!</div></div>
+                </div>    
+              </div>
+          <div class="form-group row">
+                &nbsp;&nbsp;&nbsp;&nbsp;<label for="startDate" class="control-label">Start Date</label>
+                <input type="date" id="startDate" class="form-control" formControlName="startDate" [(ngModel)]=startDate (change)="OnDateChange()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label for="endDate" class="control-label">End Date</label>
+                <input type="date" id="endDate" class="form-control" formControlName="endDate" [(ngModel)]=endDate (change)="OnDateChange()">
+                <div class="alert alert-danger" *ngIf="dateValidation">Start Date should be less than end date</div>
+          </div>
+
+          
+          <div class="form-group row" >
+                <div class="col-sm-12">
+                  <label for="userName" class="control-label">User</label>
+                <div class="row">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="userName" class="form-control managerNameBox" formControlName="userName" [(ngModel)]=userName disabled>&nbsp;&nbsp;
+                  <button type="button" class="btn btn-primary"  (click)="open(searchUser)">Search</button>
+                </div>  
+                  <div *ngIf="(form.get('userName').touched && form.get('userName').errors?.required)||showValidation&& form.get('userName').errors?.required" class="alert alert-danger">
+                   <div *ngIf="form.get('userName').errors?.required">userName name is required!</div></div>
+                </div>    
+              </div>
+          <div class="float-left">
+               
+               <button type="submit" class="btn btn-primary" >Add</button>&nbsp;&nbsp;
+               <button type="button" class="btn btn-primary pull-right" (click)="OnResetFields()">Reset</button>
+          </div>
+          
+          
+        
+        </form>
+      </div>
+
+      <ng-template #searchProject let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Select a project Name</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="mdprojectName">ProjectName</label>
+                  <div class="input-group">
+                        <select name="mdprojectName" [(ngModel)]="mdprojectName">
+                                <option *ngFor="let proj of projList">{{proj.ProjectName}}</option>
+                              </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('selectItem')">Select</button>
+            </div>
+          </ng-template>
+
+          
+      <ng-template #searchUser let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Select a User Name</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="mduserName">UserName</label>
+                  <div class="input-group">
+                        <select name="mduserName" [(ngModel)]="mduserName">
+                                <option *ngFor="let usr of usersList">{{usr.FirstName}}</option>
+                              </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('selectItem')">Select</button>
+            </div>
+          </ng-template>
+          <ng-template #searchTask let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Select a Task Name</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="mdParentTask">Parent Tasks</label>
+                  <div class="input-group">
+                        <select name="mdParentTask" [(ngModel)]="mdParentTask">
+                                <option *ngFor="let parent of parentTaskList">{{parent.parent_task}}</option>
+                              </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('selectItem')">Select</button>
+            </div>
+          </ng-template>
+          
+         
